@@ -26,7 +26,7 @@
 		E4FADA7D172D07070052AD11 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4FADA7C172D07070052AD11 /* MobileCoreServices.framework */; };
 		E4FADA83172D084B0052AD11 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4FADA7F172D084B0052AD11 /* MainStoryboard_iPad.storyboard */; };
 		E4FADA84172D084B0052AD11 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4FADA81172D084B0052AD11 /* MainStoryboard_iPhone.storyboard */; };
-		E4FADA86172D0A0F0052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E4FADA85172D0A0F0052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg */; };
+		E4FADA88172EFC310052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E4FADA87172EFC310052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,7 +82,7 @@
 		E4FADA7C172D07070052AD11 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E4FADA80172D084B0052AD11 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		E4FADA82172D084B0052AD11 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		E4FADA85172D0A0F0052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Logo_Box_Blue_Whitebg_480x480.jpg; path = "../../../box-sample-app-starting/BoxSDKSampleApp/Logo_Box_Blue_Whitebg_480x480.jpg"; sourceTree = "<group>"; };
+		E4FADA87172EFC310052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Logo_Box_Blue_Whitebg_480x480.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,7 +156,7 @@
 		E4FADA47172CFE480052AD11 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E4FADA85172D0A0F0052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg */,
+				E4FADA87172EFC310052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg */,
 				E4FADA48172CFE480052AD11 /* BoxSDKSampleApp-Info.plist */,
 				E4FADA49172CFE480052AD11 /* InfoPlist.strings */,
 				E4FADA4C172CFE480052AD11 /* main.m */,
@@ -268,7 +268,7 @@
 				E4FADA57172CFE480052AD11 /* Default-568h@2x.png in Resources */,
 				E4FADA83172D084B0052AD11 /* MainStoryboard_iPad.storyboard in Resources */,
 				E4FADA84172D084B0052AD11 /* MainStoryboard_iPhone.storyboard in Resources */,
-				E4FADA86172D0A0F0052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg in Resources */,
+				E4FADA88172EFC310052AD11 /* Logo_Box_Blue_Whitebg_480x480.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
