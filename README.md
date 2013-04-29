@@ -14,5 +14,7 @@ It demonstrates the following:
 * File uploads
 * File downloads and preview
 
-To get started, configure the app with your client ID and client secret. There
+To get started:
+1. The Box SDK is embedded as a submodule: `git submodule init && git submodule update`
+2. Configure the app with your client ID and client secret. There
 are `#warning`s in the project to help point you in the right direction.
