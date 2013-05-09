@@ -10,16 +10,18 @@
 
 #import "KeychainItemWrapper.h"
 
-#define KEYCHAIN_IDENTIFIER (@"com.box.sdkv2sampleapp")
 #define REFRESH_TOKEN_KEY   (@"box_api_refresh_token")
 
 @interface BoxAppDelegate ()
 
+@property (nonatomic, readwrite, strong) KeychainItemWrapper *keychain;
 - (void)boxAPITokensDidRefresh:(NSNotification *)notification;
 
 @end
 
 @implementation BoxAppDelegate
+
+@synthesize keychain = _keychain;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -39,8 +41,9 @@
                                                object:[BoxSDK sharedSDK].OAuth2Session];
 
     // set up stored OAuth2 refresh token
-    KeychainItemWrapper *refreshKeychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:REFRESH_TOKEN_KEY accessGroup:KEYCHAIN_IDENTIFIER];
-    id storedRefreshToken = [refreshKeychainItem objectForKey:(__bridge id)kSecValueData];
+    self.keychain = [[KeychainItemWrapper alloc] initWithIdentifier:REFRESH_TOKEN_KEY accessGroup:nil];
+
+    id storedRefreshToken = [self.keychain objectForKey:(__bridge id)kSecValueData];
     if (storedRefreshToken)
     {
         [BoxSDK sharedSDK].OAuth2Session.refreshToken = storedRefreshToken;
@@ -59,9 +62,8 @@
 {
     BoxOAuth2Session *OAuth2Session = (BoxOAuth2Session *) notification.object;
 
-    KeychainItemWrapper *refreshKeychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:REFRESH_TOKEN_KEY accessGroup:KEYCHAIN_IDENTIFIER];
-    [refreshKeychainItem resetKeychainItem];
-    [refreshKeychainItem setObject:OAuth2Session.refreshToken forKey:(__bridge id)kSecValueData];
+    [self.keychain setObject:@"BoxSDKSampleApp" forKey: (__bridge id)kSecAttrService];
+    [self.keychain setObject:OAuth2Session.refreshToken forKey:(__bridge id)kSecValueData];
 }
 
 @end
