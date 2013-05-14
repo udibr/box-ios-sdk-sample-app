@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Box. All rights reserved.
 //
 
+#import <BoxSDK/BoxSDK.h>
+
 #import "BoxPreviewViewController.h"
 
 @interface BoxPreviewViewController ()
