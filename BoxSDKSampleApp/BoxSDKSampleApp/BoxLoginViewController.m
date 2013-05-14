@@ -81,7 +81,9 @@
     NSString *oauth2Error = [[notification userInfo] valueForKey:BoxOAuth2AuthenticationErrorKey];
     NSLog(@"Authentication error  (%@)", oauth2Error);
 
-    [self.authorizationController dismissViewControllerAnimated:YES completion:nil];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self.authorizationController dismissViewControllerAnimated:YES completion:nil];
+    });
 }
 
 - (void)boxAPIInitiateLogin:(NSNotification *)notification

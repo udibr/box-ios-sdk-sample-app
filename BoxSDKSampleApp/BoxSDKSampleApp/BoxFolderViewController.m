@@ -83,8 +83,10 @@
 - (void)boxTokensDidRefresh:(NSNotification *)notification
 {
     BoxOAuth2Session *OAuth2Session = (BoxOAuth2Session *)notification.object;
-    self.accessTokenLabel.text = OAuth2Session.accessToken;
-    self.refreshTokenLabel.text = OAuth2Session.refreshToken;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        self.accessTokenLabel.text = OAuth2Session.accessToken;
+        self.refreshTokenLabel.text = OAuth2Session.refreshToken;
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
