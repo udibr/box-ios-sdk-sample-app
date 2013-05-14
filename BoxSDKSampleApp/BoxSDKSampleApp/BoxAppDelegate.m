@@ -26,8 +26,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Setup BoxSDK
-#warning Set your client ID and client secret in the BoxSDK
-#warning Register your app for the URL scheme boxsdk-YOUR_CLIENT_ID in BoxSDKSampleApp-Info.plist
+#error Set your client ID and client secret in the BoxSDK
+#error Register your app for the URL scheme boxsdk-YOUR_CLIENT_ID in BoxSDKSampleApp-Info.plist
     [BoxSDK sharedSDK].OAuth2Session.clientID = @"YOUR_CLIENT_ID";
     [BoxSDK sharedSDK].OAuth2Session.clientSecret = @"YOUR_CLIENT_SECRET";
 
