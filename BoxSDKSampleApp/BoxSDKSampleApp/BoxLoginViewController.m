@@ -6,13 +6,11 @@
 //  Copyright (c) 2013 Box. All rights reserved.
 //
 
-#import <BoxSDK/BoxSDK.h>
-
-#import "BoxFolderViewController.h"
 #import "BoxLoginViewController.h"
+#import "BoxAuthorizationNavigationController.h"
+#import "BoxFolderViewController.h"
 
 @interface BoxLoginViewController ()
-@property (nonatomic, readwrite, strong) BoxAuthorizationViewController *authorizationController;
 
 - (void)boxAPIAuthenticationDidSucceed:(NSNotification *)notification;
 - (void)boxAPIAuthenticationDidFail:(NSNotification *)notification;
@@ -26,10 +24,6 @@
 {
     [super viewDidLoad];
 
-    // create Box Authorization controller
-
-    self.authorizationController = [[BoxAuthorizationViewController alloc]
-                                    initWithOAuth2Session:[BoxSDK sharedSDK].OAuth2Session];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(boxAPIAuthenticationDidSucceed:)
                                                  name:BoxOAuth2SessionDidBecomeAuthenticatedNotification
@@ -65,7 +59,7 @@
     NSLog(@"Access token  (%@) expires at %@", session.accessToken, session.accessTokenExpiration);
     NSLog(@"Refresh token (%@)", session.refreshToken);
 
-    [self.authorizationController dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 
     dispatch_sync(dispatch_get_main_queue(), ^{
         // A user's root folder has ID = 0
@@ -81,9 +75,7 @@
     NSString *oauth2Error = [[notification userInfo] valueForKey:BoxOAuth2AuthenticationErrorKey];
     NSLog(@"Authentication error  (%@)", oauth2Error);
 
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [self.authorizationController dismissViewControllerAnimated:YES completion:nil];
-    });
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)boxAPIInitiateLogin:(NSNotification *)notification
@@ -93,7 +85,14 @@
     dispatch_sync(dispatch_get_main_queue(), ^{
         [self.navigationController popToViewController:self animated:YES];
 
-        [self presentViewController:self.authorizationController animated:YES completion:nil];
+        NSURL *authorizationURL = [BoxSDK sharedSDK].OAuth2Session.authorizeURL;
+        NSString *redirectURI = [BoxSDK sharedSDK].OAuth2Session.redirectURIString;
+        BoxAuthorizationViewController *authorizationViewController = [[BoxAuthorizationViewController alloc] initWithAuthorizationURL:authorizationURL redirectURI:redirectURI];
+        BoxAuthorizationNavigationController *loginNavigation = [[BoxAuthorizationNavigationController alloc] initWithRootViewController:authorizationViewController];
+        authorizationViewController.delegate = loginNavigation;
+        loginNavigation.modalPresentationStyle = UIModalPresentationFormSheet;
+
+        [self presentViewController:loginNavigation animated:YES completion:nil];
     });
     
 }
@@ -108,7 +107,14 @@
 #pragma mark - UIButton events
 - (IBAction)clickLoginButton:(id)sender
 {
-    [self presentViewController:self.authorizationController animated:YES completion:nil];
+    NSURL *authorizationURL = [BoxSDK sharedSDK].OAuth2Session.authorizeURL;
+    NSString *redirectURI = [BoxSDK sharedSDK].OAuth2Session.redirectURIString;
+    BoxAuthorizationViewController *authorizationViewController = [[BoxAuthorizationViewController alloc] initWithAuthorizationURL:authorizationURL redirectURI:redirectURI];
+    BoxAuthorizationNavigationController *loginNavigation = [[BoxAuthorizationNavigationController alloc] initWithRootViewController:authorizationViewController];
+    authorizationViewController.delegate = loginNavigation;
+    loginNavigation.modalPresentationStyle = UIModalPresentationFormSheet;
+
+    [self presentViewController:loginNavigation animated:YES completion:nil];
 }
 
 @end
