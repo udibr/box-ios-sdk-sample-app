@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BoxLoginViewController : UIViewController
+@interface BoxNavigationController : UINavigationController
 
-- (IBAction)clickLoginButton:(id)sender;
+- (void)boxAPIHeartbeat;
 
 @end

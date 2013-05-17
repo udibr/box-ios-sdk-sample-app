@@ -44,6 +44,7 @@
     [super viewDidLoad];
 
     UIWebView *webView = (UIWebView *)self.view;
+    webView.scalesPageToFit = YES;
     [webView loadData:self.data MIMEType:self.MIMEType textEncodingName:@"utf-8" baseURL:[NSURL URLWithString:@"https://box.com" ]];
 
 

@@ -14,6 +14,7 @@
 
 @property (nonatomic, readwrite, strong) IBOutlet UILabel *accessTokenLabel;
 @property (nonatomic, readwrite, strong) IBOutlet UILabel *refreshTokenLabel;
+@property (nonatomic, readwrite, strong) UIBarButtonItem *logoutButton;
 @property (nonatomic, readwrite, strong) NSMutableArray *folderItemsArray;
 @property (nonatomic, readwrite, assign) NSInteger totalCount;
 @property (nonatomic, readwrite, strong) NSString *folderID;

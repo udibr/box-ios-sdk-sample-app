@@ -18,7 +18,7 @@
 		E4FADA55172CFE480052AD11 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E4FADA54172CFE480052AD11 /* Default@2x.png */; };
 		E4FADA57172CFE480052AD11 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E4FADA56172CFE480052AD11 /* Default-568h@2x.png */; };
 		E4FADA67172CFF290052AD11 /* BoxFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FADA5E172CFF290052AD11 /* BoxFolderViewController.m */; };
-		E4FADA68172CFF290052AD11 /* BoxLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FADA60172CFF290052AD11 /* BoxLoginViewController.m */; };
+		E4FADA68172CFF290052AD11 /* BoxNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FADA60172CFF290052AD11 /* BoxNavigationController.m */; };
 		E4FADA69172CFF290052AD11 /* BoxPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FADA62172CFF290052AD11 /* BoxPreviewViewController.m */; };
 		E4FADA6A172CFF290052AD11 /* BoxTrashFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FADA64172CFF290052AD11 /* BoxTrashFolderViewController.m */; };
 		E4FADA6B172CFF290052AD11 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E4FADA66172CFF290052AD11 /* KeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -72,8 +72,8 @@
 		E4FADA56172CFE480052AD11 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E4FADA5D172CFF290052AD11 /* BoxFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoxFolderViewController.h; sourceTree = "<group>"; };
 		E4FADA5E172CFF290052AD11 /* BoxFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoxFolderViewController.m; sourceTree = "<group>"; };
-		E4FADA5F172CFF290052AD11 /* BoxLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoxLoginViewController.h; sourceTree = "<group>"; };
-		E4FADA60172CFF290052AD11 /* BoxLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoxLoginViewController.m; sourceTree = "<group>"; };
+		E4FADA5F172CFF290052AD11 /* BoxNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoxNavigationController.h; sourceTree = "<group>"; };
+		E4FADA60172CFF290052AD11 /* BoxNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoxNavigationController.m; sourceTree = "<group>"; };
 		E4FADA61172CFF290052AD11 /* BoxPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoxPreviewViewController.h; sourceTree = "<group>"; };
 		E4FADA62172CFF290052AD11 /* BoxPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoxPreviewViewController.m; sourceTree = "<group>"; };
 		E4FADA63172CFF290052AD11 /* BoxTrashFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoxTrashFolderViewController.h; sourceTree = "<group>"; };
@@ -140,8 +140,8 @@
 			children = (
 				E4FADA4F172CFE480052AD11 /* BoxAppDelegate.h */,
 				E4FADA50172CFE480052AD11 /* BoxAppDelegate.m */,
-				E4FADA5F172CFF290052AD11 /* BoxLoginViewController.h */,
-				E4FADA60172CFF290052AD11 /* BoxLoginViewController.m */,
+				E4FADA5F172CFF290052AD11 /* BoxNavigationController.h */,
+				E4FADA60172CFF290052AD11 /* BoxNavigationController.m */,
 				E127CF601745849100D9D39E /* BoxAuthorizationNavigationController.h */,
 				E127CF611745849100D9D39E /* BoxAuthorizationNavigationController.m */,
 				E4FADA5D172CFF290052AD11 /* BoxFolderViewController.h */,
@@ -287,7 +287,7 @@
 				E4FADA4D172CFE480052AD11 /* main.m in Sources */,
 				E4FADA51172CFE480052AD11 /* BoxAppDelegate.m in Sources */,
 				E4FADA67172CFF290052AD11 /* BoxFolderViewController.m in Sources */,
-				E4FADA68172CFF290052AD11 /* BoxLoginViewController.m in Sources */,
+				E4FADA68172CFF290052AD11 /* BoxNavigationController.m in Sources */,
 				E4FADA69172CFF290052AD11 /* BoxPreviewViewController.m in Sources */,
 				E4FADA6A172CFF290052AD11 /* BoxTrashFolderViewController.m in Sources */,
 				E4FADA6B172CFF290052AD11 /* KeychainItemWrapper.m in Sources */,

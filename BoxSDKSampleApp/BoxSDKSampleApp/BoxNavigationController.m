@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Box. All rights reserved.
 //
 
-#import "BoxLoginViewController.h"
+#import "BoxNavigationController.h"
 #import "BoxAuthorizationNavigationController.h"
 #import "BoxFolderViewController.h"
 
-@interface BoxLoginViewController ()
+@interface BoxNavigationController ()
 
 - (void)boxAPIAuthenticationDidSucceed:(NSNotification *)notification;
 - (void)boxAPIAuthenticationDidFail:(NSNotification *)notification;
@@ -18,12 +18,10 @@
 
 @end
 
-@implementation BoxLoginViewController
+@implementation BoxNavigationController
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(boxAPIAuthenticationDidSucceed:)
                                                  name:BoxOAuth2SessionDidBecomeAuthenticatedNotification
@@ -38,17 +36,18 @@
                                                object:[BoxSDK sharedSDK].OAuth2Session];
 
     // attempt to heartbeat. This will succeed if we successfully refresh
-    BoxFolderBlock successBlock = ^(BoxFolder *folder)
-    {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            // A user's root folder has ID = 0
-            BoxFolderViewController *folderViewController = [BoxFolderViewController folderViewFromStoryboardWithFolderID:@"0" folderName:@"All Files"];
+    // on failure, the BoxOAuth2SessionDidReceiveRefreshErrorNotification notification will be triggered
+    [self boxAPIHeartbeat];
+}
 
-            [self.navigationController pushViewController:folderViewController animated:YES];
-        });
-    };
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
-    [[BoxSDK sharedSDK].foldersManager folderInfoWithID:@"0" requestBuilder:nil success:successBlock failure:nil];
+- (void)boxAPIHeartbeat
+{
+    [[BoxSDK sharedSDK].foldersManager folderInfoWithID:@"0" requestBuilder:nil success:nil failure:nil];
 }
 
 #pragma mark - Handle OAuth2 session notifications
@@ -61,12 +60,9 @@
 
     [self dismissViewControllerAnimated:YES completion:nil];
 
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        // A user's root folder has ID = 0
-        BoxFolderViewController *folderViewController = [BoxFolderViewController folderViewFromStoryboardWithFolderID:@"0" folderName:@"All Files"];
-
-        [self.navigationController pushViewController:folderViewController animated:YES];
-    });
+    BOXAssert(self.viewControllers.count == 1, @"There should only be one folder in the hierarchy when authentication succeeds");
+    BoxFolderViewController *rootVC = (BoxFolderViewController *)self.topViewController;
+    [rootVC fetchFolderItemsWithFolderID:BoxAPIFolderIDRoot name:@"All Files"];
 }
 
 - (void)boxAPIAuthenticationDidFail:(NSNotification *)notification
@@ -83,7 +79,7 @@
     NSLog(@"Refresh failed. User is logged out. Initiate login flow");
 
     dispatch_sync(dispatch_get_main_queue(), ^{
-        [self.navigationController popToViewController:self animated:YES];
+        [self popToRootViewControllerAnimated:YES];
 
         NSURL *authorizationURL = [BoxSDK sharedSDK].OAuth2Session.authorizeURL;
         NSString *redirectURI = [BoxSDK sharedSDK].OAuth2Session.redirectURIString;
@@ -95,26 +91,6 @@
         [self presentViewController:loginNavigation animated:YES completion:nil];
     });
     
-}
-
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
-#pragma mark - UIButton events
-- (IBAction)clickLoginButton:(id)sender
-{
-    NSURL *authorizationURL = [BoxSDK sharedSDK].OAuth2Session.authorizeURL;
-    NSString *redirectURI = [BoxSDK sharedSDK].OAuth2Session.redirectURIString;
-    BoxAuthorizationViewController *authorizationViewController = [[BoxAuthorizationViewController alloc] initWithAuthorizationURL:authorizationURL redirectURI:redirectURI];
-    BoxAuthorizationNavigationController *loginNavigation = [[BoxAuthorizationNavigationController alloc] initWithRootViewController:authorizationViewController];
-    authorizationViewController.delegate = loginNavigation;
-    loginNavigation.modalPresentationStyle = UIModalPresentationFormSheet;
-
-    [self presentViewController:loginNavigation animated:YES completion:nil];
 }
 
 @end
