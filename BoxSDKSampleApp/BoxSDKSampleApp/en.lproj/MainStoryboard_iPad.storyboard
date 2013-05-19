@@ -1,64 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="cDK-iN-P2b">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="cDK-iN-P2b">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Box Login View Controller - Login-->
-        <scene sceneID="cEg-oe-jbu">
-            <objects>
-                <viewController storyboardIdentifier="LoginView" id="gYV-GP-k7B" customClass="BoxLoginViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="YlP-BJ-5E5">
-                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lb9-Pf-dPX">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="FOn-bq-HVe"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Log In to Box">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="clickLoginButton:" destination="gYV-GP-k7B" eventType="touchUpInside" id="iBw-QM-ujU"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This is a sample app built on the Box V2 iOS SDK. It is a simple folder browser." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="728" translatesAutoresizingMaskIntoConstraints="NO" id="CAK-Nk-mTQ">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="249" id="NR2-Cs-pu8"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="CAK-Nk-mTQ" firstAttribute="leading" secondItem="YlP-BJ-5E5" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="1kT-dl-gaD"/>
-                            <constraint firstItem="CAK-Nk-mTQ" firstAttribute="top" secondItem="lb9-Pf-dPX" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="9dg-22-QU9"/>
-                            <constraint firstAttribute="trailing" secondItem="lb9-Pf-dPX" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Obh-bJ-zlR"/>
-                            <constraint firstItem="lb9-Pf-dPX" firstAttribute="leading" secondItem="YlP-BJ-5E5" secondAttribute="leading" constant="20" symbolic="YES" type="user" id="okV-pC-k1U"/>
-                            <constraint firstItem="lb9-Pf-dPX" firstAttribute="top" secondItem="YlP-BJ-5E5" secondAttribute="top" constant="20" symbolic="YES" type="user" id="wHA-ap-moG"/>
-                            <constraint firstAttribute="trailing" secondItem="CAK-Nk-mTQ" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="xTt-p8-DdE"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Login" id="GF9-5u-WT7"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lul-ba-z2b" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2570" y="-406"/>
-        </scene>
         <!--Box Folder View Controller-->
         <scene sceneID="evO-CP-HdM">
             <objects>
                 <tableViewController storyboardIdentifier="FolderTableView" id="RcT-l9-HQu" customClass="BoxFolderViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="fiF-6g-Njg">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="q19-FM-mvy">
@@ -122,6 +73,7 @@
                             <outlet property="delegate" destination="RcT-l9-HQu" id="K3F-jA-1Dl"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="hsv-Yt-qSl"/>
                     <connections>
                         <outlet property="accessTokenLabel" destination="jSQ-C4-4H4" id="1eF-l1-tFY"/>
                         <outlet property="refreshTokenLabel" destination="wSc-4M-Cft" id="ZxL-Cl-4yB"/>
@@ -129,22 +81,22 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yxl-Mt-bJY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3430" y="-406"/>
+            <point key="canvasLocation" x="3262" y="-406"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Box Navigation Controller-->
         <scene sceneID="3hh-ih-dXA">
             <objects>
-                <navigationController definesPresentationContext="YES" id="cDK-iN-P2b" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="cDK-iN-P2b" customClass="BoxNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="R5D-UF-hrC">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="gYV-GP-k7B" kind="relationship" relationship="rootViewController" id="k9u-kh-CYK"/>
+                        <segue destination="RcT-l9-HQu" kind="relationship" relationship="rootViewController" id="XVJ-hG-GMf"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cDT-qB-zEo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1645" y="-406"/>
+            <point key="canvasLocation" x="2321" y="-406"/>
         </scene>
         <!--Box Trash Folder View Controller-->
         <scene sceneID="pzk-9C-tQq">
@@ -222,7 +174,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1G4-QL-iRg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4326" y="-406"/>
+            <point key="canvasLocation" x="4150" y="-406"/>
         </scene>
     </scenes>
     <classes>
@@ -233,8 +185,8 @@
                 <relationship kind="outlet" name="refreshTokenLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
-        <class className="BoxLoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/BoxLoginViewController.h"/>
+        <class className="BoxNavigationController" superclassName="UINavigationController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BoxNavigationController.h"/>
             <relationships>
                 <relationship kind="action" name="clickLoginButton:"/>
             </relationships>

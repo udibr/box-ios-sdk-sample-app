@@ -10,6 +10,8 @@
 
 #import "BoxFolderViewController.h"
 
+#import "BoxAppDelegate.h"
+#import "BoxNavigationController.h"
 #import "BoxPreviewViewController.h"
 #import "BoxTrashFolderViewController.h"
 
@@ -22,8 +24,10 @@
 - (void)displayTrashFolder:(id)sender;
 - (void)performSampleUpload:(id)sender;
 - (void)addFolderButtonClicked:(id)sender;
+- (void)logoutButtonClicked:(id)sender;
 
 - (void)boxTokensDidRefresh:(NSNotification *)notification;
+- (void)boxDidGetLoggedOut:(NSNotification *)notification;
 
 @end
 
@@ -31,6 +35,7 @@
 
 @synthesize accessTokenLabel = _accessTokenLabel;
 @synthesize refreshTokenLabel = _refreshTokenLabel;
+@synthesize logoutButton = _logoutButton;
 @synthesize folderItemsArray = _folderItemsArray;
 @synthesize totalCount = _totalCount;
 @synthesize folderID = _folderID;
@@ -55,7 +60,6 @@
 
 - (void)viewDidLoad
 {
-    self.navigationItem.title = self.folderName;
     self.accessTokenLabel.text = [BoxSDK sharedSDK].OAuth2Session.accessToken;
     self.refreshTokenLabel.text = [BoxSDK sharedSDK].OAuth2Session.refreshToken;
 
@@ -65,14 +69,39 @@
     UIBarButtonItem *trashButton = [[UIBarButtonItem alloc] initWithTitle:@"Trash" style:UIBarButtonItemStylePlain target:self action:@selector(displayTrashFolder:)];
     self.navigationItem.rightBarButtonItem = trashButton;
 
+    self.logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonClicked:)];
     UIBarButtonItem *uploadButton = [[UIBarButtonItem alloc] initWithTitle:@"Sample Upload" style:UIBarButtonItemStyleBordered target:self action:@selector(performSampleUpload:)];
     UIBarButtonItem *addFolderButton = [[UIBarButtonItem alloc] initWithTitle:@"Add Folder" style:UIBarButtonItemStyleBordered target:self action:@selector(addFolderButtonClicked:)];
 
     self.navigationController.toolbarHidden = NO;
-    [self setToolbarItems:@[uploadButton, addFolderButton] animated:YES];
+    [self setToolbarItems:@[self.logoutButton, uploadButton, addFolderButton] animated:YES];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boxTokensDidRefresh:) name:BoxOAuth2SessionDidBecomeAuthenticatedNotification object:[BoxSDK sharedSDK].OAuth2Session];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(boxTokensDidRefresh:) name:BoxOAuth2SessionDidRefreshTokensNotification object:[BoxSDK sharedSDK].OAuth2Session];
+    // Handle logged in
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(boxTokensDidRefresh:)
+                                                name:BoxOAuth2SessionDidBecomeAuthenticatedNotification
+                                            object:[BoxSDK sharedSDK].OAuth2Session];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(boxTokensDidRefresh:)
+                                                name:BoxOAuth2SessionDidRefreshTokensNotification
+                                            object:[BoxSDK sharedSDK].OAuth2Session];
+    // Handle logout
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(boxDidGetLoggedOut:)
+                                                name:BoxOAuth2SessionDidReceiveAuthenricationErrorNotification
+                                            object:[BoxSDK sharedSDK].OAuth2Session];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(boxDidGetLoggedOut:)
+                                                name:BoxOAuth2SessionDidReceiveRefreshErrorNotification
+                                                object:[BoxSDK sharedSDK].OAuth2Session];
+
+    if (self.folderID == nil)
+    {
+        self.folderID = BoxAPIFolderIDRoot;
+        self.folderName = @"All Files";
+    }
+
+    self.navigationItem.title = self.folderName;
 }
 
 - (void)dealloc
@@ -86,6 +115,19 @@
     dispatch_sync(dispatch_get_main_queue(), ^{
         self.accessTokenLabel.text = OAuth2Session.accessToken;
         self.refreshTokenLabel.text = OAuth2Session.refreshToken;
+        self.logoutButton.title = @"Logout";
+    });
+}
+
+- (void)boxDidGetLoggedOut:(NSNotification *)notification
+{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        // clear old folder items
+        self.folderItemsArray = [NSMutableArray array];
+        [self.tableView reloadData];
+        self.accessTokenLabel.text = @"";
+        self.refreshTokenLabel.text = @"";
+        self.logoutButton.title = @"Login";
     });
 }
 
@@ -156,7 +198,7 @@
             [self.refreshControl beginRefreshing];
             [[BoxSDK sharedSDK].filesManager deleteFileWithID:IDToDelete requestBuilder:nil success:success failure:nil];
         }
-        
+
     }
 }
 
@@ -328,30 +370,44 @@
     [folderNamePrompt show];
 }
 
+#pragma mark - Logout
+- (void)logoutButtonClicked:(id)sender
+{
+    // clear Tokens from memory
+    [BoxSDK sharedSDK].OAuth2Session.accessToken = @"INVALID_ACCESS_TOKEN";
+    [BoxSDK sharedSDK].OAuth2Session.refreshToken = @"INVALID_REFRESH_TOKEN";
+
+    // clear tokens from keychain
+    BoxAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    [appDelegate setRefreshTokenInKeychain:@"INVALID_REFRESH_TOKEN"];
+
+    [(BoxNavigationController *)self.navigationController boxAPIHeartbeat];
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == alertView.firstOtherButtonIndex)
-   {
+    {
         UITextField *nameField = [alertView textFieldAtIndex:0];
         BoxFolderBlock success = ^(BoxFolder *folder)
         {
             [self fetchFolderItemsWithFolderID:self.folderID name:self.navigationItem.title];
         };
 
-       BoxAPIJSONFailureBlock failure = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSDictionary *JSONDictionary)
-       {
-           NSLog(@"folder create failed with error code: %i", response.statusCode);
-           if (response.statusCode == 409)
-           {
-               dispatch_sync(dispatch_get_main_queue(), ^{
-                   UIAlertView *conflictAlert = [[UIAlertView alloc] initWithTitle:@"Name conflict" message:[NSString stringWithFormat:@"A folder already exists with the name %@.\n\nNew name:", nameField.text] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        BoxAPIJSONFailureBlock failure = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSDictionary *JSONDictionary)
+        {
+            NSLog(@"folder create failed with error code: %i", response.statusCode);
+            if (response.statusCode == 409)
+            {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    UIAlertView *conflictAlert = [[UIAlertView alloc] initWithTitle:@"Name conflict" message:[NSString stringWithFormat:@"A folder already exists with the name %@.\n\nNew name:", nameField.text] delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
 
-                   conflictAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                    conflictAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
 
-                   [conflictAlert show];
-               });
-           }
-       };
+                    [conflictAlert show];
+                });
+            }
+        };
 
         BoxFoldersRequestBuilder *builder = [[BoxFoldersRequestBuilder alloc] init];
         builder.name = nameField.text;

@@ -27,7 +27,6 @@
 {
     // Setup BoxSDK
 #error Set your client ID and client secret in the BoxSDK
-#error Register your app for the URL scheme boxsdk-YOUR_CLIENT_ID in BoxSDKSampleApp-Info.plist
     [BoxSDK sharedSDK].OAuth2Session.clientID = @"YOUR_CLIENT_ID";
     [BoxSDK sharedSDK].OAuth2Session.clientSecret = @"YOUR_CLIENT_SECRET";
 
@@ -52,18 +51,16 @@
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation
-{
-    [[BoxSDK sharedSDK].OAuth2Session performAuthorizationCodeGrantWithReceivedURL:url];
-    return YES;
-}
-
 - (void)boxAPITokensDidRefresh:(NSNotification *)notification
 {
     BoxOAuth2Session *OAuth2Session = (BoxOAuth2Session *) notification.object;
+    [self setRefreshTokenInKeychain:OAuth2Session.refreshToken];
+}
 
+- (void)setRefreshTokenInKeychain:(NSString *)refreshToken
+{
     [self.keychain setObject:@"BoxSDKSampleApp" forKey: (__bridge id)kSecAttrService];
-    [self.keychain setObject:OAuth2Session.refreshToken forKey:(__bridge id)kSecValueData];
+    [self.keychain setObject:refreshToken forKey:(__bridge id)kSecValueData];
 }
 
 @end
