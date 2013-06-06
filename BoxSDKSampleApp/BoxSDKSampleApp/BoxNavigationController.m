@@ -28,7 +28,7 @@
                                                object:[BoxSDK sharedSDK].OAuth2Session];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(boxAPIAuthenticationDidFail:)
-                                                 name:BoxOAuth2SessionDidReceiveAuthenricationErrorNotification
+                                                 name:BoxOAuth2SessionDidReceiveAuthenticationErrorNotification
                                                object:[BoxSDK sharedSDK].OAuth2Session];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(boxAPIInitiateLogin:)
