@@ -16,6 +16,6 @@
 
 @property (strong, nonatomic) ViewController *viewController;
 
-- (void)setRefreshTokenInKeychain:(NSString *)refreshToken;
+- (void)logoutFromBox;
 
 @end

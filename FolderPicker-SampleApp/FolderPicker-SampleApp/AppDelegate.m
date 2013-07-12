@@ -63,6 +63,10 @@
     return YES;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)boxAPITokensDidRefresh:(NSNotification *)notification
 {
     BoxOAuth2Session *OAuth2Session = (BoxOAuth2Session *) notification.object;
@@ -73,6 +77,18 @@
 {
     [self.keychain setObject:@"FolderPicker-SampleApp" forKey: (__bridge id)kSecAttrService];
     [self.keychain setObject:refreshToken forKey:(__bridge id)kSecValueData];
+}
+
+- (void)logoutFromBox
+{
+    // clear Tokens from memory
+    [BoxSDK sharedSDK].OAuth2Session.accessToken = @"INVALID_ACCESS_TOKEN";
+    // make sure OAuth2Session.isAuthorized returns NO
+    [BoxSDK sharedSDK].OAuth2Session.accessTokenExpiration = [NSDate dateWithTimeIntervalSince1970:0.];
+    [BoxSDK sharedSDK].OAuth2Session.refreshToken = @"INVALID_REFRESH_TOKEN";
+    
+    // clear tokens from keychain
+    [self setRefreshTokenInKeychain:@"INVALID_REFRESH_TOKEN"];
 }
 
 @end
