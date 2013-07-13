@@ -37,7 +37,7 @@
 - (void)boxFolderPicker
 {
     // On rare cases using dispatch_sync(dispatch_get_main_queue(),... will cause a crash inside the Box SDK
-    // it looks like using a short timmer avoids this
+    // it looks like using a short timer avoids this
     // TODO: the crash in the SDK should be fixed
     double delayInSeconds = 0.1;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
